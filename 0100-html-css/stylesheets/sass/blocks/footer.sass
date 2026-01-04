@@ -1,0 +1,87 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+.footer
+  background: v.$bg-color-light-2
+  width: 100%
+
+.footer__content
+  background: #f9f9f9
+  justify-content: space-evenly
+  width: 100%
+  max-width: 1920px
+  margin: auto
+  padding: 64px 128px
+  display: flex
+
+.footer__left
+  margin-right: auto
+
+.footer__right
+  display: flex
+  align-items: center
+
+// ------------------------
+//  logo
+// ------------------------
+
+.footer__logo
+  letter-spacing: 4px
+  margin-bottom: 32px
+  font-size: 24px
+  font-weight: 700
+  // align-items: center
+
+// .footer__logoContent
+//   display: flex
+//   align-items: center
+//   // gap: 8px
+//   // text-decoration: none
+//   // color: inherit
+
+// .footer__logoImage
+//   margin-right: 8px
+//   // width: 24px
+//   // height: 24px
+
+// .footer__logoText
+//   font-size: 14px
+//   // font-weight: 600
+
+// ------------------------
+//  menu
+// ------------------------
+.footer__menu
+  margin-right: 16px
+  display: flex
+  // gap: 24px
+  // list-style: none
+  // margin: 0
+  // padding: 0
+
+.footer__menuTitle
+  margin-bottom: 32px
+
+.footer__menuItem
+  margin-right: 64px
+  // font-size: 12px
+
+// .footer__menuLink
+//   vertical-align: middle
+//   vertical-align: -webkit-baseline-middle
+//   transition: color 0.5s
+//   display: inline-block
+//   // color: v.$font-light
+//   // text-decoration: none
+//   // font-size: 14px
+//   // opacity: 0.85
+//   // transition: opacity 0.2s
+
+// .menuLink:hover
+//   opacity: 1
+
+//------------------------
+//  link
+// ------------------------
+.footer__linkItem
+  margin-bottom: 16px

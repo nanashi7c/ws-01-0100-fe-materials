@@ -1,0 +1,44 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+.review
+  margin-bottom: 64px
+  padding: 0 128px
+
+.reviewHeaderTitle
+  text-align: center
+  font-size: 18px
+
+.reviewContent
+  justify-content: space-evenly
+  margin-top: 128px
+  padding: 0 128px
+  display: flex
+
+.reviewCol
+  width: 280px
+  margin-right: 32px
+
+.reviewAvatar
+  justify-content: center
+  align-items: center
+  display: flex
+
+.reviewAvatarImage
+  object-fit: cover
+  border-radius: 50%
+  width: 64px
+  height: 64px
+
+.reviewProfile
+  text-align: center
+  margin: 32px 0
+  font-weight: 700
+
+.reviewDescription
+  color: v.$top-font-weak-color
+
+.reviewFooter
+  justify-content: center
+  margin: 128px 0
+  display: flex

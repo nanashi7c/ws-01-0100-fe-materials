@@ -1,3 +1,16 @@
-.body
-  background: #2e2e2e
+@use '../shared/_variable' as v
 
+.body
+  display: block
+  background: v.$background-color
+  overflow-x: hidden
+
+.main
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  // justify-content: flex-start
+  align-items: center
+  min-height: 100vh
+  overflow: hidden
+  unicode-bidi: isolate

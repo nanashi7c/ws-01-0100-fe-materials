@@ -1,0 +1,161 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+.header
+  width: 100%
+  color: v.$font-color-dark
+  z-index: v.$z-index-public-header
+  justify-content: space-between
+  padding: 16px
+  display: flex
+  // align-items: center
+  // padding: 24px 48px
+  position: absolute
+  // background: v.$background-color
+  top: 0
+  unicode-bidi: isolate
+
+// ------------------------
+//  logo
+// ------------------------
+
+.header__logo
+  display: flex
+  // align-items: center
+
+.header__logoContent
+  display: flex
+  align-items: center
+  // gap: 8px
+  // text-decoration: none
+  // color: inherit
+
+.header__logoImage
+  margin-right: 8px
+  // width: 24px
+  // height: 24px
+
+.header__logoText
+  font-size: 14px
+  // font-weight: 600
+
+// ------------------------
+//  right area
+// ------------------------
+
+.header__right
+  display: flex
+  align-items: center
+
+ul
+  list-style-type: none
+
+// li
+//   display: list-item
+//   unicode-bidi: isolate
+
+//------------------------
+//  menu
+// ------------------------
+
+.header__menu
+  margin-right: 16px
+  display: flex
+  // gap: 24px
+  // list-style: none
+  // margin: 0
+  // padding: 0
+
+.header__menuTitle
+  margin-bottom: 32px
+
+.header__menuItem
+  margin-right: 16px
+  font-size: 12px
+  // font-size: 12px
+
+.header__menuLink
+  vertical-align: middle
+  vertical-align: -webkit-baseline-middle
+  transition: color 0.5s
+  display: inline-block
+  // color: v.$font-light
+  // text-decoration: none
+  // font-size: 14px
+  // opacity: 0.85
+  // transition: opacity 0.2s
+
+// .menuLink:hover
+//   opacity: 1
+
+// //------------------------
+// //  link
+// // ------------------------
+// .linkItem
+//   margin-bottom: 16px
+
+//------------------------
+//  github icon
+//------------------------
+
+.header__container
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  // cursor: pointer
+
+.header__container svg
+  width: 24px
+  height: 24px
+
+// ------------------------
+//  actions
+// ------------------------
+
+.header--actions
+  justify-content: space-evenly
+  align-items: center
+  min-width: 240px
+  display: flex
+
+  // display: flex
+  // align-items: center
+  // gap: 16px
+
+.header__button
+  cursor: pointer
+  letter-spacing: 1.4px
+  border: 0
+  border-radius: 4px
+  width: 100%
+  padding: 8px 16px
+  font-size: 10px
+
+  // appearance: auto
+  // display: inline-block
+  // text-align: center
+  // cursor: default
+
+  // padding: 12px 20px
+  // border-radius: 999px
+  // font-size: 14px
+  // font-weight: 600
+  // text-decoration: none
+  // display: inline-flex
+  // align-items: center
+  // justify-content: center
+
+.button--primary
+  background: v.$primary-color
+  color: v.$font-color-light
+  transition: background 0.5s
+  box-shadow: 2px 2px 4px 1px #1e514036
+
+.button--secondary
+  background: v.$secondary-color
+  color: v.$font-color-light
+  box-shadow: 2px 2px 4px 1px #1e514036
+
+  // border: 1px solid rgba(255, 255, 255, 0.3)
+  // color: v.$font-light

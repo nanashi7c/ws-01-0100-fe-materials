@@ -1,8 +1,38 @@
 @use '../shared/_variable' as v
 
 %font
-  color: v.$font-dark
   font-family: "Inter", "Noto Sans JP", sans-serif
   font-optical-sizing: auto
   font-weight: normal
   font-style: normal
+
+// --------------------
+//  base reset
+// --------------------
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+html,
+body
+  max-width: 100%
+  overflow-x: hidden
+  margin: 0
+  padding: 0
+
+// --------------------
+//  base typography
+// --------------------
+
+body,
+input,
+textarea
+  color: v.$font-color-dark
+  background: v.$background-color
+  font-family: "Inter", "Noto Sans JP", sans-serif
+
+a
+  color: v.$font-color-dark
+  text-decoration: none

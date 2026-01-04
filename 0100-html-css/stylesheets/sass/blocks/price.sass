@@ -1,0 +1,70 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+.price
+  margin: 64px
+
+.priceHeaderTitle
+  text-align: center
+  font-size: 18px
+
+.priceSubHeader
+  text-align: center
+  margin-top: 32px
+  font-size: 12px
+
+.priceTable
+  justify-content: center
+  margin-top: 128px
+  display: flex
+
+.priceCol
+  margin-right: 32px
+
+.planContainer
+  border: 1px solid v.$border-color-light
+  background: v.$background-color
+  border-radius: 8px
+  width: 360px
+  padding: 32px
+  box-shadow: 1px 1px 8px 4px #f9f9f9
+
+.planHeader
+  width: 240px
+
+.planName
+  font-size: 18px
+  font-weight: 700
+
+.planDescription
+  height: 100px
+  color: v.$top-font-weak-color
+  padding: 16px 0
+  font-size: 12px
+
+.planPrice
+  letter-spacing: 0.2rem
+  white-space: nowrap
+  padding: 16px 0
+  font-size: 64px
+  font-weight: 700
+
+.priceTag
+  color: v.$font-color-dark
+  margin: 16px 0
+  font-size: 12px
+
+.planRow
+  text-align: center
+  align-items: center
+  display: flex
+
+.iconCircle
+  background: #d6f5eb
+  border-radius: 50%
+  width: 16px
+  height: 16px
+
+.planRowBody
+  text-align: left
+  padding: 16px
