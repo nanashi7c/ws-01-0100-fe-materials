@@ -466,28 +466,4 @@ ul {
   display: flex;
 }
 
-.menu {
-  margin-right: 16px;
-  display: flex;
-}
-
-.menuTitle {
-  margin-bottom: 32px;
-}
-
-.menuItem {
-  margin-right: 64px;
-}
-
-.menuLink {
-  vertical-align: middle;
-  vertical-align: -webkit-baseline-middle;
-  transition: color 0.5s;
-  display: inline-block;
-}
-
-.linkItem {
-  margin-bottom: 16px;
-}
-
 /*# sourceMappingURL=style.css.map */
