@@ -4,21 +4,21 @@
 .features
   flex-wrap: wrap
   justify-content: center
-  margin: 64px
+  margin: 64px 0
   display: flex
 
-.col
+.features__col
   width: 300px
   margin-bottom: 128px
   margin-right: 64px
+  @include m.sm
+    margin: auto auto 128px
 
-.featureTitle
+.feature__title
   text-align: center
   margin-bottom: 16px
   font-size: 18px
 
-.featureDescription
+.feature__description
   text-align: left
   color: v.$top-font-weak-color
-
-  

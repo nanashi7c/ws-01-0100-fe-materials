@@ -1,29 +1,6 @@
 @use '../shared/variable' as v
 @use '../shared/mixin' as m
 
-// textアニメーション
-@keyframes typing
-  0%
-    width: 0
-
-@keyframes effect
-  50%
-    border-right: 3px solid v.$font-color-dark
-
-@keyframes hide
-  0%
-    width: 0
-
-@keyframes showup
-  0%
-    opacity: 0
-
-@keyframes fadein
-  0%
-    opacity: 0
-  100%
-    opacity: 1
-
 .hero
   justify-content: center
   align-items: center
@@ -31,56 +8,62 @@
   height: 960px
   display: flex
   position: relative
+  @include m.sm
+    height: 640px
 
-.copy
+.hero__copy
   text-align: center
 
-.copyText
+.hero__copy-text
   font-size: 96px
 
-.firstLine
+.hero__first-line
   text-align: center
   white-space: nowrap
   width: 16ch
   margin: auto
-  animation: 3s steps(16, end) typing, 0.5s step-end 6 alternate effect
+  animation: 3s steps(16, end) hero-typing, 0.5s step-end 6 alternate hero-effect
   display: block
   overflow: hidden
+  @include m.lg
+    font-size: 48px
+  @include m.sm
+    width: 100%
+    font-size: 32px
+    animation: none
 
-.gradient
-  background: linear-gradient(-90deg, #4bcaa0 0%,#2ed9ff 100%)
+.hero__gradient
+  background: linear-gradient(90deg, #4bcaa0 0%,#2ed9ff 100%)
   -webkit-text-fill-color: #0000
   -webkit-background-clip: text
 
-.secondLine
+.hero__second-line
   text-align: center
   white-space: nowrap
   width: 14ch
   margin: auto
-  animation: 3s step-end hide, 3s steps(14, end) 3s typing, 5s step-end 3s 10 alternate effect
+  animation: 3s step-end hero-hide, 3s steps(14, end) 3s hero-typing, 5s step-end 3s 10 alternate hero-effect
   display: block
   overflow: hidden
+  @include m.lg
+    font-size: 48px
+  @include m.sm
+    width: 100%
+    font-size: 32px
+    animation: none
 
-.copySubText
+.hero__subtext
   width: 60ch
   color: v.$top-font-weak-color
   white-space: nowrap
   margin: 32px auto auto
   font-size: 24px
-  animation: 6s step-end showup,1s 6s fadein
+  animation: 6s step-end hero-showup,1s 6s hero-fadein
   overflow: hidden
-
-.cta
-  cursor: pointer
-  background: v.$primary-color
-  color: #fff
-  border-radius: 8px
-  justify-content: center
-  width: 360px
-  margin: 64px auto auto
-  padding: 16px 32px
-  transition: background 0.5s
-  display: flex
-
-.ctaAnimation
-  animation: 6s step-end showup,1s 6s fadein
+  @include m.lg
+    font-size: 16px
+  @include m.sm
+    white-space: normal
+    width: 100%
+    font-size: 16px
+    animation: none

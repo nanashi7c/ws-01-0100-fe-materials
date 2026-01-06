@@ -4,41 +4,50 @@
 .review
   margin-bottom: 64px
   padding: 0 128px
+  @include m.lg
+    padding: 0 16px
 
-.reviewHeaderTitle
+.review__header-title
   text-align: center
   font-size: 18px
 
-.reviewContent
+.review__content
   justify-content: space-evenly
   margin-top: 128px
   padding: 0 128px
   display: flex
+  @include m.lg
+    flex-wrap: wrap
+    margin-top: 64px
+    padding: 0 16px
 
-.reviewCol
+.review__col
   width: 280px
   margin-right: 32px
+  @include m.lg
+    min-width: 280px
+    margin-bottom: 128px
 
-.reviewAvatar
+.review__avatar
   justify-content: center
   align-items: center
   display: flex
 
-.reviewAvatarImage
+.review__avatar-image
   object-fit: cover
   border-radius: 50%
   width: 64px
   height: 64px
 
-.reviewProfile
+.review__profile
   text-align: center
   margin: 32px 0
   font-weight: 700
 
-.reviewDescription
+.review__description
   color: v.$top-font-weak-color
 
-.reviewFooter
+.review__footer
   justify-content: center
   margin: 128px 0
   display: flex

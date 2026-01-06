@@ -10,8 +10,10 @@
   display: flex
   position: absolute
   flex-wrap: wrap
+  @include m.lg
+    display: none
 
-.donutInner
+.donut__inner
   background: v.$background-color
   border-radius: 50%
   justify-content: center

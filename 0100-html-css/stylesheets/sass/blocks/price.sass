@@ -2,69 +2,85 @@
 @use '../shared/mixin' as m
 
 .price
-  margin: 64px
+  margin: 64px 0
 
-.priceHeaderTitle
+.price__header-title
   text-align: center
   font-size: 18px
 
-.priceSubHeader
+.price__sub-header
   text-align: center
   margin-top: 32px
   font-size: 12px
+  @include m.lg
+    padding: 16px
 
-.priceTable
+.price__table
   justify-content: center
   margin-top: 128px
   display: flex
+  @include m.lg
+    flex-wrap: wrap
 
-.priceCol
+.price__col
   margin-right: 32px
+  @include m.sm
+    margin-bottom: 64px
+  @include m.lg
+    margin: auto
 
-.planContainer
+.price__plan-container
   border: 1px solid v.$border-color-light
   background: v.$background-color
   border-radius: 8px
   width: 360px
   padding: 32px
   box-shadow: 1px 1px 8px 4px #f9f9f9
+  @include m.lg
+    min-width: 100%
+    margin-bottom: 64px
 
-.planHeader
+.price__plan-header
   width: 240px
 
-.planName
+.price__plan-name
   font-size: 18px
   font-weight: 700
 
-.planDescription
+.price__plan-description
   height: 100px
   color: v.$top-font-weak-color
   padding: 16px 0
   font-size: 12px
 
-.planPrice
+.price__plan-price
   letter-spacing: 0.2rem
   white-space: nowrap
   padding: 16px 0
   font-size: 64px
   font-weight: 700
 
-.priceTag
+.price__price-tag
   color: v.$font-color-dark
   margin: 16px 0
   font-size: 12px
 
-.planRow
+.price__plan-row
   text-align: center
   align-items: center
   display: flex
+  @include m.lg
+    height: auto
 
-.iconCircle
-  background: #d6f5eb
-  border-radius: 50%
-  width: 16px
-  height: 16px
+.price__plan-row-header
+  display: none
+  @include m.lg
+    background: v.$primary-color
+    color: v.$font-color-light
+    padding: 4px
+    font-size: 12px
+    display: block
 
-.planRowBody
+.price__plan-row-body
   text-align: left
   padding: 16px

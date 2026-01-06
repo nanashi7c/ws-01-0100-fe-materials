@@ -1,0 +1,21 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+.cta
+  cursor: pointer
+  background: v.$primary-color
+  color: #fff
+  border-radius: 8px
+  justify-content: center
+  width: 360px
+  margin: 64px auto auto
+  padding: 16px 32px
+  transition: background 0.5s
+  display: flex
+  &:hover
+    background: v.$primary-color-darker
+
+.cta__animation
+  animation: 6s step-end hero-showup,1s 6s hero-fadein
+  @include m.sm
+    animation: none

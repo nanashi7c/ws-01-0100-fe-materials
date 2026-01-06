@@ -1,0 +1,25 @@
+@use '../shared/variable' as v
+@use '../shared/mixin' as m
+
+// textアニメーション
+@keyframes hero-typing
+  0%
+    width: 0
+
+@keyframes hero-effect
+  50%
+    border-right: 3px solid v.$font-color-dark
+
+@keyframes hero-hide
+  0%
+    width: 0
+
+@keyframes hero-showup
+  0%
+    opacity: 0
+
+@keyframes hero-fadein
+  0%
+    opacity: 0
+  100%
+    opacity: 1

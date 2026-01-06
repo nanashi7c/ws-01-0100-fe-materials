@@ -1,0 +1,9 @@
+@use '../shared/variable' as v
+
+@mixin lg
+  @media (max-width: v.$lg)
+    @content
+
+@mixin sm
+  @media (max-width: v.$sm)
+    @content
