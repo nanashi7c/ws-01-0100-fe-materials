@@ -8,6 +8,12 @@
  */
 
 function getPersonObject() {
+  const obj = {
+    name: 'Bob',
+    age: 32,
+    gender: 'male',
+  }
+  return obj;
 }
 
 /**
@@ -25,6 +31,9 @@ function getPersonObject() {
  */
 
 function keys(obj) {
+  for (const key in obj) {
+    console.log(obj[key]);
+  }
 }
 
 /**
