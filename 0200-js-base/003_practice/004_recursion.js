@@ -15,7 +15,12 @@
  *    30 => 55
  */
 
-function sumSequence (n, sum = 0) {
+function sumSequence(n, sum = 0) {
+  if (n === 0) {
+    return sum;
+  }
+
+  return sumSequence(n - 1, sum + n);
 }
 
 /**
@@ -28,7 +33,25 @@ function sumSequence (n, sum = 0) {
  *    input: 10 => [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
  */
 
-function fibonacci (num) {
+function fibonacci(num) {
+  if (num <= 0) {
+    return [];
+  }
+
+  if (num === 1) {
+    return [1];
+  }
+
+  if (num === 2) {
+    return [1, 1];
+  }
+
+  const prev = fibonacci(num - 1);
+  const next =
+    prev[prev.length - 1] +
+    prev[prev.length - 2];
+
+  return [...prev, next];
 }
 
 /**
@@ -42,7 +65,19 @@ function fibonacci (num) {
  *
  */
 
-function flatten (data) {
+function flatten(data) {
+
+  if (!Array.isArray(data)) {
+    return [data];
+  }
+
+  let flattenedArray = [];
+
+  for (const item of data) {
+    flattenedArray = flattenedArray.concat(flatten(item));
+  }
+
+  return flattenedArray;
 }
 
 
@@ -98,7 +133,28 @@ function flatten (data) {
  *    => 38
  */
 
-function fileSize (node, sum = 0) {
+function fileSize(node, sum = 0) {
+
+  if (node.type === 'file') {
+    return sum + node.size;
+  }
+
+  for (const child of node.children) {
+    sum = fileSize(child, sum);
+  }
+
+  return sum;
+
+  // ---answer1---
+  // if (node.type === 'file') {
+  //   return node.size;
+  // }
+
+  // for (const child of node.children) {
+  //   sum += fileSize(child);
+  // }
+
+  // return sum;
 }
 
 

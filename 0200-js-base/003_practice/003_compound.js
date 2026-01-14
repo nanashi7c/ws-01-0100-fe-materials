@@ -182,7 +182,7 @@ function intersection(a, b) {
  */
 
 function mergeObjOfArray(a, b) {
-  const idMap = new Map();
+  const idMap = new Map(); //idMapのキー:id
 
   for (const item of a) {
     idMap.set(item.id, { ...item });
@@ -215,6 +215,23 @@ function mergeObjOfArray(a, b) {
  */
 
 function sum(data) {
+  // 配列の場合
+  if (Array.isArray(data)) {
+    return data.reduce(
+      (accumulator, element) => accumulator + sum(element), 0
+    );
+  }
+  // オブジェクトの場合
+  if (data !== null && typeof data === "object") {
+    let countSum = typeof data.count === "number" ? data.count : 0;
+
+    for (const key in data) {
+      countSum += sum(data[key]);
+    }
+    return countSum;
+  }
+
+  return 0
 }
 
 module.exports = {
