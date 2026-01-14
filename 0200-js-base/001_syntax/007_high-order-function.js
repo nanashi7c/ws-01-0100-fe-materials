@@ -6,6 +6,15 @@
  */
 
 function filter(array, cb) {
+  const result = [];
+
+  for (const [i, value] of array.entries()) {
+    if (cb(value, i)) {
+      result.push(value);
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -15,6 +24,11 @@ function filter(array, cb) {
  */
 
 function find(array, cb) {
+  for (const [i, value] of array.entries()) {
+    if (cb(value, i)) {
+      return value;
+    }
+  }
 }
 
 /**
@@ -24,6 +38,12 @@ function find(array, cb) {
  */
 
 function findIndex(array, cb) {
+  for (const [i, value] of array.entries()) {
+    if (cb(value, i)) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 /**
@@ -33,6 +53,12 @@ function findIndex(array, cb) {
  */
 
 function some(array, cb) {
+  for (const [i, value] of array.entries()) {
+    if (cb(value, i)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -42,6 +68,12 @@ function some(array, cb) {
  */
 
 function every(array, cb) {
+  for (const [i, value] of array.entries()) {
+    if (!cb(value, i)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
@@ -52,6 +84,11 @@ function every(array, cb) {
  */
 
 function map(array, cb) {
+  const mappedArray = [];
+  for (const [i, value] of array.entries()) {
+    mappedArray.push(cb(value, i));
+  }
+  return mappedArray;
 }
 
 /**
@@ -62,6 +99,10 @@ function map(array, cb) {
  */
 
 function forEach(array, cb) {
+  for (const [i, value] of array.entries()) {
+    cb(value, i);
+    // cb(value, i, array);
+  }
 }
 
 module.exports = {

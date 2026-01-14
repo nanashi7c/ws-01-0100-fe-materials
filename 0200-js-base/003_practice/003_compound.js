@@ -6,6 +6,17 @@
  */
 
 function flatten(list) {
+  const flattened = [];
+
+  for (const element of list) {
+    if (Array.isArray(element)) {
+      flattened.push(...element);
+    } else {
+      flattened.push(element);
+    }
+  }
+
+  return flattened;
 }
 
 /**
@@ -26,6 +37,24 @@ function flatten(list) {
  */
 
 function toMap(list) {
+  // ---answer2---
+  const idMap = {};
+
+  list.forEach(id => {
+    idMap[id] = true;
+  });
+
+  return idMap;
+
+
+  // ---answer1---
+  // const idMap = {};
+
+  // for (const value of list) {
+  //   idMap[value] = true;
+  // }
+
+  // return idMap;
 }
 
 /**
@@ -38,6 +67,24 @@ function toMap(list) {
  */
 
 function toList(obj) {
+  // ---answer2---
+  let list = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    list.push(key, value);
+  }
+
+  return list;
+
+
+  // ---answer1---
+  // let list = [];
+
+  // for (const key in obj) {
+  //   list.push(key, obj[key]);
+  // }
+
+  // return list;
 }
 
 /**
@@ -58,6 +105,14 @@ function toList(obj) {
  */
 
 function ids(obj) {
+  let idsArray = [];
+
+  for (const value of obj) {
+    // idsArray.push(value['id']);
+    idsArray.push(value.id);
+  }
+
+  return idsArray;
 }
 
 /**
@@ -74,6 +129,19 @@ function ids(obj) {
  */
 
 function merge(a, b) {
+  const seenValues = new Set(a);
+  const mergedArray = [];
+  mergedArray.push(...a);
+
+  for (const value of b) {
+    if (!seenValues.has(value)) {
+      mergedArray.push(value);
+      seenValues.add
+    }
+  }
+
+  return mergedArray;
+
 }
 
 /**
@@ -89,6 +157,15 @@ function merge(a, b) {
  */
 
 function intersection(a, b) {
+  const commonElements = [];
+
+  for (const value of a) {
+    if (b.includes(value)) {
+      commonElements.push(value);
+    }
+  }
+
+  return commonElements;
 }
 
 /**
@@ -105,6 +182,24 @@ function intersection(a, b) {
  */
 
 function mergeObjOfArray(a, b) {
+  const idMap = new Map();
+
+  for (const item of a) {
+    idMap.set(item.id, { ...item });
+  }
+
+  for (const item of b) {
+    if (idMap.has(item.id)) {
+      idMap.set(item.id, {
+        ...idMap.get(item.id),
+        ...item,
+      });
+    } else {
+      idMap.set(item.id, { ...item });
+    }
+  }
+
+  return Array.from(idMap.values());
 }
 
 /**

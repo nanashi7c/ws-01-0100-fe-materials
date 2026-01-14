@@ -22,9 +22,56 @@
  */
 
 class Person {
+  #name = '';
+  #age = 0;
+  #bio = '';
+
+  constructor(name = '', age = 0, bio = '') {
+    this.#name = String(name);
+    this.#age = Number(age);
+    this.#bio = String(bio);
+  }
+
+  sayHi() {
+    console.log('Hi!!');
+  }
+
+  get name() {
+    return this.#name;
+  }
+  set name(v) {
+    this.#name = v;
+  }
+
+  get age() {
+    return this.#age;
+  }
+  set age(v) {
+    this.#age = v;
+  }
+
+  get bio() {
+    return this.#bio;
+  }
+  set bio(v) {
+    this.#bio = v;
+  }
+
+  static describe() {
+    console.log('This is a Person class');
+  }
+
+  get isUnderage() {
+    return this.#age < 20;
+  }
+
+  toString() {
+    return `name: ${this.#name}, age: ${this.#age}, bio: ${this.#bio}`;
+  }
+
 }
 
-function main () {
+function main() {
   const person = new Person('ichiro', 54, 'I like to play baseball')
   person.sayHi()
   Person.describe()

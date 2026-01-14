@@ -19,21 +19,20 @@ function getPersonObject() {
 /**
  *  6.2 与えられたオブジェクトのkeyを一つずつ表示する関数を実装してください。
  *
- * input:
- *  name: 'Bob'
- *  age: 32
- *  gender: 'male'
- * output:
- *  name
- *  age
- *  gender
+function keys(obj) {
+  for (const key in obj) {
+    console.log(key);
+  }
+  // Object.keys(obj).forEach(it => console.log(it));
+}
  *
  */
 
 function keys(obj) {
   for (const key in obj) {
-    console.log(obj[key]);
+    console.log(key);
   }
+  // Object.keys(obj).forEach(it => console.log(it));
 }
 
 /**
@@ -51,6 +50,9 @@ function keys(obj) {
  */
 
 function values(obj) {
+  for (const key in obj) {
+    console.log(obj[key]);
+  }
 }
 
 /**
@@ -66,6 +68,8 @@ function values(obj) {
  */
 
 function doubleAge(person) {
+  person.age += 1;
+  return person;
 }
 
 /**
@@ -80,6 +84,10 @@ function doubleAge(person) {
  */
 
 function setProcessedFlag(obj) {
+  return {
+    ...obj,
+    processed: true,
+  };
 }
 
 /**
@@ -104,8 +112,20 @@ function setProcessedFlag(obj) {
  *
  */
 
-function assignNumber(persons) {
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * 10) + 1;
 }
+
+function assignNumber(persons) {
+  const assignedNumber = {};
+  for (const person of persons) {
+    // assignedNumber[person] = Math.floor(Math.random() * 10) + 1;
+    assignedNumber[person] = getRandomNumber();
+  }
+  return assignedNumber;
+}
+
 
 /**
  *  6.7 配列に重複した要素があれば、true、そうでなければfalseを返す関数を実装してください
@@ -119,6 +139,15 @@ function assignNumber(persons) {
  */
 
 function isDuplicate(array) {
+  const seen = {};
+
+  for (const value of array) {
+    if (seen[value]) {
+      return true;
+    }
+    seen[value] = true;
+  }
+  return false;
 }
 
 module.exports = {

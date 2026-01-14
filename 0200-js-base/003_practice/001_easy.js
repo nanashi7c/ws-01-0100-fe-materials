@@ -12,6 +12,13 @@
  */
 
 function length(str) {
+  let len = 0;
+
+  for (const _ of str) {
+    len++;
+  }
+
+  return len;
 }
 
 /**
@@ -26,6 +33,13 @@ function length(str) {
  *
  */
 function reverse(str) {
+  let reversedString = '';
+
+  for (let i = str.length - 1; i >= 0; i--) {
+    reversedString += str[i];
+  }
+
+  return reversedString;
 }
 
 /**
@@ -41,6 +55,12 @@ function reverse(str) {
  */
 
 function findIndex(str, char) {
+
+  for (i = 0; i < str.length; i++) {
+    if (str[i] === char) return i;
+  }
+
+  return -1;
 }
 
 /**
@@ -56,6 +76,20 @@ function findIndex(str, char) {
  */
 
 function split(a, b) {
+  let splitedArray = [];
+  let currentChunk = '';
+
+  for (const char of a) {
+    if (char === b) {
+      splitedArray.push(currentChunk);
+      currentChunk = '';
+    } else {
+      currentChunk += char;
+    }
+  }
+
+  splitedArray.push(currentChunk);
+  return splitedArray;
 }
 
 /**
@@ -71,6 +105,13 @@ function split(a, b) {
  */
 
 function sum(array) {
+  let total = 0;
+
+  for (const value of array) {
+    total += value;
+  }
+
+  return total;
 }
 
 /**
@@ -88,6 +129,9 @@ function sum(array) {
  */
 
 function average(array) {
+  if (array.length === 0) return 0;
+
+  return Math.floor(sum(array) / array.length);
 }
 
 /**
@@ -103,6 +147,16 @@ function average(array) {
  */
 
 function concat(a, b) {
+  let concutedArray = [];
+
+  for (const value of a) {
+    concutedArray.push(value);
+  }
+
+  for (const value of b) {
+    concutedArray.push(value);
+  }
+  return concutedArray;
 }
 
 /**
@@ -118,6 +172,13 @@ function concat(a, b) {
  */
 
 function size(array) {
+  let count = 0;
+
+  for (const _ of array) {
+    count++;
+  }
+
+  return count;
 }
 
 /**
@@ -134,6 +195,21 @@ function size(array) {
  */
 
 function minMax(array) {
+  if (array.length === 0) return;
+
+  let
+    currentMax = array[0],
+    currentMin = array[0];
+
+  for (const value of array) {
+    if (currentMax < value) {
+      currentMax = value;
+    } else if (currentMin > value) {
+      currentMin = value;
+    }
+  }
+
+  console.log(`max: ${currentMax}, min: ${currentMin}`);
 }
 
 /**
@@ -148,6 +224,13 @@ function minMax(array) {
  */
 
 function seq(num) {
+  let sequentialArray = [];
+
+  for (let i = 0; i < num; i++) {
+    sequentialArray.push(i);
+  }
+
+  return sequentialArray;
 }
 
 /**
@@ -163,6 +246,13 @@ function seq(num) {
  */
 
 function omitSeq(num) {
+  let omitSequentialArray = [];
+
+  for (let i = 1; i <= num; i++) {
+    if (i % 2 === 1) omitSequentialArray.push(i);
+  }
+
+  return omitSequentialArray;
 }
 
 /**
@@ -178,6 +268,13 @@ function omitSeq(num) {
  */
 
 function filter(array, num) {
+  let filteredArray = [];
+
+  for (const value of array) {
+    if (value <= num) filteredArray.push(value);
+  }
+
+  return filteredArray;
 }
 
 /**
@@ -203,7 +300,27 @@ function filter(array, num) {
  *    ...
  */
 
-function fizzBuzz () {
+function fizzBuzz() {
+  for (let number = 1; number <= 100; number++) {
+    let fizzBuzzText = '';
+    if (number % 3 === 0) fizzBuzzText += 'Fizz';
+    if (number % 5 === 0) fizzBuzzText += 'Buzz';
+
+    const outputText = fizzBuzzText ? `${number} ${fizzBuzzText}` : `${number}`;
+    console.log(outputText);
+  }
+
+
+  // for (i = 1; i <= 100; i++) {
+  //   if (i % 3 === 0 && i % 5 === 0) console.log(`${i} FizzBuzz`);
+  //   else if (i % 3 === 0) {
+  //     console.log(`${i} Fizz`);
+  //   } else if (i % 5 === 0) {
+  //     console.log(`${i} Buzz`);
+  //   } else {
+  //     console.log(i);
+  //   }
+  // }
 }
 
 module.exports = {
