@@ -64,11 +64,11 @@ class List {
 
     const removed = this.data[targetIndex];
 
-    for (let i = targetIndex; i < this.data.length - 1; i++) {
-      this.data[i] = this.data[i + 1];
-    }
+    this.data = [
+      ...this.data.slice(0, targetIndex),
+      ...this.data.slice(targetIndex + 1)
+    ]
 
-    this.data.length -= 1;
     return removed;
   }
 
@@ -82,7 +82,7 @@ class List {
     if (this.data.length === 0) return undefined
 
     const last = this.data[this.data.length - 1];
-    this.data.length -= 1;
+    this.data = this.data.slice(0, this.data.length - 1);
     return last;
   }
 
@@ -100,7 +100,7 @@ class List {
       this.data[i] = this.data[i + 1];
     }
 
-    this.data.length -= 1;
+    this.data.pop();
     return first;
   }
 
@@ -196,7 +196,7 @@ class Stack {
     if (this.data.length === 0) return undefined;
 
     const last = this.data[this.data.length - 1];
-    this.data.length -= 1;
+    this.data.pop();
     return last;
   }
 
@@ -259,7 +259,7 @@ class Queue {
       this.data[i] = this.data[i + 1];
     }
 
-    this.data.length -= 1;
+    this.data.pop();
     return first;
   }
 

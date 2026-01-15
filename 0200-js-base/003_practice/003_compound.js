@@ -136,7 +136,7 @@ function merge(a, b) {
   for (const value of b) {
     if (!seenValues.has(value)) {
       mergedArray.push(value);
-      seenValues.add
+      seenValues.add(value);
     }
   }
 
