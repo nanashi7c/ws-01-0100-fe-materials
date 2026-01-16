@@ -1,0 +1,37 @@
+@use '../shared/_base.sass' as b
+@use '../shared/_variable' as v
+
+.form
+  border: 1px solid v.$border-color
+  border-radius: 8px
+  padding: 8px 16px
+  margin-bottom: 32px
+
+.form__input
+  display: flex
+
+.form__input-name
+  flex: 4
+  padding: 8px 16px
+  display: grid
+
+.form__input-label
+  margin-bottom: 4px
+  font-size: 12px
+
+.form__input-field
+  width: 100%
+  border: 1px solid v.$border-color
+  border-radius: 8px
+  padding: 8px
+  box-sizing: border-box
+
+.form__input-date
+  flex: 1
+  padding: 8px 16px
+  display: grid
+
+.form__footer
+  margin: 16px
+  display: flex
+  justify-content: flex-end

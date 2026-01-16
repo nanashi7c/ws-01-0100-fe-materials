@@ -1,17 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Todo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <script src="https://kit.fontawesome.com/51423ebba7.js" crossorigin="anonymous"></script>
-  </head>
-  <body class="body">
-    <script src="js/lib.js"></script>
-    <script src="js/function.js"></script>
-  </body>
+
+<head>
+  <title>Todo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <script src="https://kit.fontawesome.com/51423ebba7.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="body">
+  <main>
+
+    <header class="header">
+      <h1 class="header__ttl">Todo</h1>
+    </header>
+
+    <div class="content">
+      <form class="form">
+        <div class="form__input">
+          <div class="form__input-name">
+            <label class="form__input-label">タスク</label>
+            <input class="form__input-field" type="text" placeholder="タスク名を入力">
+          </div>
+          <div class="form__input-date">
+            <label class="form__input-label">期限日</label>
+            <input class="form__input-field" type="date">
+          </div>
+        </div>
+        <div class="form__footer">
+          <button class="btn btn--add">追加</button>
+        </div>
+      </form>
+      <div class="list">
+        <div class="list__header">
+          <label class="list__setting-label">
+            <input class="list__setting-input" type="checkbox">完了タスクを表示
+          </label>
+        </div>
+        <div class="list__ttl">
+          <div class="list__ttl-col">&nbsp; </div>
+          <div class="list__ttl-col list__ttl-col--long">タスク</div>
+          <div class="list__ttl-col">期限日</div>
+          <div class="list__ttl-col">&nbsp; </div>
+        </div>
+        <div class="list__constainer">
+          <li>
+            <div class="list__item">
+              <div class="list__item-col list__item-col-checkbox">
+                <label class="checkbox">
+                  <input type="checkbox" class="checkbox__input">
+                  <i class="icon icon--ckeck fa-solid fa-check" aria-hidden="true"></i>
+                </label>
+              </div>
+              <div class="list__item-col list__item-col-name">
+              </div>
+              <div class="list__item-col list__item-col-deadline">
+              </div>
+              <div class="list__item-col list__item-col-actions">
+                <i class="icon icon--trash fa-solid fa-trash" sria-hidden></i>
+              </div>
+            </div>
+          </li>
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <div>
+
+
+    </div>
+
+
+  </main>
+
+
+
+  <script src="js/lib.js"></script>
+  <script src="js/function.js"></script>
+</body>
+
 </html>

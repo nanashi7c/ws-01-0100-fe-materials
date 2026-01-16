@@ -1,0 +1,50 @@
+@use '../shared/_base.sass' as b
+@use '../shared/_variable' as v
+
+.list
+  padding: 32px
+
+.list__header
+  padding: 16px
+  margin-bottom: 32px
+  display: flex
+  justify-content: flex-end
+
+.list__ttl
+  display: flex
+  align-items: center
+  border-bottom: 1px solid v.$border-color
+
+.list__ttl-col
+  flex: 1
+  padding: 8px 16px
+  border-right: 1px solid v.$border-color
+  font-size: 12px
+  &:last-child
+    border-right: 0
+
+.list__ttl-col--long
+  flex: 4
+
+.list__constainer
+  list-style: none
+
+.list__item
+  display: flex
+
+.list__item-col
+  flex: 1
+  border-right: 1px solid v.$border-color
+  padding: 16px
+
+.list__item-col-checkbox
+  display: flex
+  justify-content: center
+
+.list__item-col-name
+  flex: 4
+
+.list__item-col-actions
+  font-size: 12px
+  display: flex
+  justify-content: center
