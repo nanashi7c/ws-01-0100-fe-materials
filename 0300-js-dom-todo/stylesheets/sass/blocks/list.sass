@@ -26,15 +26,19 @@
 .list__ttl-col--long
   flex: 4
 
-.list__constainer
+.list__container
   list-style: none
 
 .list__item
   display: flex
+  &.is-removing
+    opacity: 0
+    transition: opacity 1.5s ease
 
 .list__item-col
   flex: 1
   border-right: 1px solid v.$border-color
+  border-bottom: 1px solid v.$border-color
   padding: 16px
 
 .list__item-col-checkbox
@@ -43,6 +47,30 @@
 
 .list__item-col-name
   flex: 4
+  input
+    width: 100%
+    box-sizing: border-box
+    // font: inherit
+    background: #fff
+    border: 1px solid v.$border-color
+    border-radius: 4px
+    padding: 8px
+    outline: none
+    &:focus-visible
+      outline: 3px solid #666
+      // outline-offset: 2px
+
+.list__item-col-deadline
+  input
+    width: 100%
+    box-sizing: border-box
+    background: #fff
+    border: 1px solid v.$border-color
+    border-radius: 4px
+    padding: 8px
+    outline: none
+    &:focus-visible
+      outline: 3px solid #666
 
 .list__item-col-actions
   font-size: 12px

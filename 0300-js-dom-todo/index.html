@@ -22,7 +22,7 @@
     </header>
 
     <div class="content">
-      <form class="form">
+      <form class="form js-form">
         <div class="form__input">
           <div class="form__input-name">
             <label class="form__input-label">タスク</label>
@@ -40,7 +40,7 @@
       <div class="list">
         <div class="list__header">
           <label class="list__setting-label">
-            <input class="list__setting-input" type="checkbox">完了タスクを表示
+            <input class="list__setting-input js-show-completed" type="checkbox">完了タスクを表示
           </label>
         </div>
         <div class="list__ttl">
@@ -49,13 +49,13 @@
           <div class="list__ttl-col">期限日</div>
           <div class="list__ttl-col">&nbsp; </div>
         </div>
-        <div class="list__constainer">
+        <div class="list__container js-list-container">
           <li>
             <div class="list__item">
               <div class="list__item-col list__item-col-checkbox">
                 <label class="checkbox">
                   <input type="checkbox" class="checkbox__input">
-                  <i class="icon icon--ckeck fa-solid fa-check" aria-hidden="true"></i>
+                  <i class="icon icon--check fa-solid fa-check" aria-hidden="true"></i>
                 </label>
               </div>
               <div class="list__item-col list__item-col-name">
@@ -63,7 +63,7 @@
               <div class="list__item-col list__item-col-deadline">
               </div>
               <div class="list__item-col list__item-col-actions">
-                <i class="icon icon--trash fa-solid fa-trash" sria-hidden></i>
+                <i class="icon icon--trash fa-solid fa-trash" aria-hidden></i>
               </div>
             </div>
           </li>
