@@ -26,11 +26,11 @@
         <div class="form__input">
           <div class="form__input-name">
             <label class="form__input-label">タスク</label>
-            <input class="form__input-field" type="text" placeholder="タスク名を入力">
+            <input class="form__input-field" type="text" name="name" placeholder="タスク名を入力">
           </div>
           <div class="form__input-date">
             <label class="form__input-label">期限日</label>
-            <input class="form__input-field" type="date">
+            <input class="form__input-field" type="date" name="deadline">
           </div>
         </div>
         <div class="form__footer">
@@ -52,37 +52,25 @@
         <div class="list__container js-list-container">
           <li>
             <div class="list__item">
-              <div class="list__item-col list__item-col-checkbox">
+              <div class="list__item-col list__item-col--checkbox">
                 <label class="checkbox">
                   <input type="checkbox" class="checkbox__input">
                   <i class="icon icon--check fa-solid fa-check" aria-hidden="true"></i>
                 </label>
               </div>
-              <div class="list__item-col list__item-col-name">
+              <div class="list__item-col list__item-col--name">
               </div>
               <div class="list__item-col list__item-col-deadline">
               </div>
-              <div class="list__item-col list__item-col-actions">
+              <div class="list__item-col list__item-col--actions">
                 <i class="icon icon--trash fa-solid fa-trash" aria-hidden></i>
               </div>
             </div>
           </li>
         </div>
-
       </div>
-
-
     </div>
-
-    <div>
-
-
-    </div>
-
-
   </main>
-
-
 
   <script src="js/lib.js"></script>
   <script src="js/function.js"></script>

@@ -31,26 +31,29 @@
 
 .list__item
   display: flex
-  &.is-removing
-    opacity: 0
-    transition: opacity 1.5s ease
+  align-items: center
+  width: 100%
+  border-bottom: 1px solid v.$border-color
+  transition: opacity 0.8s ease
+
+.list__item--completed-dismissing
+  opacity: 0
 
 .list__item-col
+  box-sizing: border-box
   flex: 1
   border-right: 1px solid v.$border-color
-  border-bottom: 1px solid v.$border-color
   padding: 16px
 
 .list__item-col-checkbox
   display: flex
   justify-content: center
 
-.list__item-col-name
+.list__item-col--name
   flex: 4
   input
     width: 100%
     box-sizing: border-box
-    // font: inherit
     background: #fff
     border: 1px solid v.$border-color
     border-radius: 4px
@@ -58,9 +61,9 @@
     outline: none
     &:focus-visible
       outline: 3px solid #666
-      // outline-offset: 2px
 
-.list__item-col-deadline
+.list__item-col--deadline
+  cursor: pointer
   input
     width: 100%
     box-sizing: border-box
@@ -72,7 +75,7 @@
     &:focus-visible
       outline: 3px solid #666
 
-.list__item-col-actions
+.list__item-col--actions
   font-size: 12px
   display: flex
   justify-content: center

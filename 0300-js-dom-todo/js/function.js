@@ -22,218 +22,154 @@ const state = {
 function renderTasks(container) {
   if (!container) return
 
+  const { tasks, showCompleted } = state
+
   container.innerHTML = ''
 
-  const visibleTasks = state.showCompleted
-    ? state.tasks
-    : state.tasks.filter((task) => !task.completed)
+  tasks.sort((a, b) => a.deadline.getTime() - b.deadline.getTime())
 
-  for (const task of visibleTasks) {
-    const li = document.createElement('li')
+  const rerender = () => renderTasks(container)
 
-    li.innerHTML = `
-      <div class="list__item">
-              <div class="list__item-col list__item-col-checkbox">
-                <label class="checkbox">
-                  <input type="checkbox" class="checkbox__input">
-                  <i class="icon icon--check fa-solid fa-check" aria-hidden="true"></i>
-                </label>
-              </div>
-              <div class="list__item-col list__item-col-name">
-              </div>
-              <div class="list__item-col list__item-col-deadline">
-              </div>
-              <div class="list__item-col list__item-col-actions">
-                <i class="icon icon--trash fa-solid fa-trash" aria-hidden></i>
-              </div>
-            </div>
-    `
+  tasks.forEach((task, index) => {
+    if (!showCompleted && task.completed) {
+      return
+    }
 
-    const checkbox = li.querySelector('.checkbox__input')
-    const row = li.querySelector('.list__item')
-    const nameEl = li.querySelector('.list__item-col-name')
-    const deadlineEl = li.querySelector('.list__item-col-deadline')
-    const trashIcon = li.querySelector('.icon--trash')
+    renderTask(container, task, {
+      onEditName: (col) => {
+        const value = col.textContent
+        col.innerHTML = ''
 
-    nameEl.textContent = task.name
-    deadlineEl.textContent = String(task.deadline ?? '')
+        const input = document.createElement('input')
+        input.setAttribute('type', 'text')
+        input.setAttribute('class', 'form__input-field')
+        input.value = value
+        col.innerHTML = ''
+        col.appendChild(input)
 
-    checkbox.checked = Boolean(task.completed)
+        input.addEventListener('blur', (e) => {
+          e.stopPropagation()
 
+          if (e.target.value) {
+            const name = e.target.value
+            task.name = name
+          }
+          rerender()
+        })
+        input.focus()
+      },
 
-    checkbox.addEventListener('change', (event) => {
-      task.completed = event.target.checked
+      onEditDeadline: (col) => {
+        col.innerHTML = ''
 
-      // checkbox.addEventListener('change', () => {
-      //   task.completed = checkbox.checked
-      // })
+        const input = document.createElement('input')
+        input.setAttribute('type', 'date')
+        input.setAttribute('class', 'form__input-field')
+        input.value = col.textContent
 
-      if (!state.showCompleted && task.completed) {
-        row.classList.add('is-removing')
+        col.innerHTML = ''
+        col.appendChild(input)
+
+        input.addEventListener('blur', (e) => {
+          e.stopPropagation()
+          if (e.target.value) {
+            task.deadline = AppDate.parse(e.target.value)
+          }
+
+          rerender()
+        })
+        input.focus()
+        input.showPicker()
+      },
+
+      onComplete: (row, completed) => {
+        row.classList.toggle('list__item--completed')
+        if (!showCompleted && completed) {
+          row.classList.add('list__item--completed-dismissing')
+        }
+
+        task.completed = completed
 
         setTimeout(() => {
-          renderTasks(container)
-        }, 1500)
-        // return
+          rerender()
+        }, 1000)
+      },
+
+      onDelete: () => {
+        tasks.splice(index, 1)
+        rerender()
       }
     })
+  })
+}
 
 
-    nameEl.style.cursor = 'pointer'
-
-    nameEl.addEventListener('click', (e) => {
-      e.stopPropagation()
-
-      if (nameEl.querySelector('input')) return
-
-      const beforeName = task.name
-
-      const input = document.createElement('input')
-      input.type = 'text'
-      input.value = task.name
-
-      input.addEventListener('click', (e) => e.stopPropagation())
-
-      nameEl.textContent = ''
-      nameEl.appendChild(input)
-
-      input.focus()
-      // input.select()
-      const end = input.value.length
-      input.setSelectionRange(end, end)
-
-      const commit = () => {
-        const newName = input.value.trim()
-
-        // if (!newName) {
-        //   task.name = beforeName
-        //   renderTasks(container)
-        //   return
-        // }
-
-        task.name = newName ? newName : beforeName
-        renderTasks(container)
-      }
-
-      input.addEventListener('blur', commit)
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') commit()
-        if (e.key === 'Escape') {
-          task.name = beforeName
-          renderTasks(container)
-        }
-      })
-    })
-
-    // deadlineEl.computedStyleMap().cursor = 'pointer'
-    deadlineEl.style.cursor = 'pointer'
-
-    deadlineEl.addEventListener('click', () => {
-      // if (deadlineEl.querySelector('input')) return
-      const existing = deadlineEl.querySelector('input[type="date"]')
-
-      if (existing) {
-        existing.showPicker?.()
-        existing.focus()
-        existing.click()
-        return
-      }
-
-      const beforeDeadline = task.deadline
-
-      const input = document.createElement('input')
-      input.type = 'date'
-      input.value = typeof task.deadline === 'string' ? task.deadline : ''
-
-      deadlineEl.textContent = ''
-      deadlineEl.appendChild(input)
-
-      input.focus()
-
-      // input.showPicker?.()
-      if (input.showPicker) {
-        input.showPicker()
-      }
-
-      // setTimeout(() => input.click(), 0)
-
-      const commit = () => {
-        const newDeadline = input.value.trim()
-
-        // if (!newDeadline) {
-        //   task.deadline = beforeDeadline
-        //   renderTasks(container)
-        //   return
-        // }
-
-        // task.deadline = newDeadline
-        task.deadline = newDeadline ? newDeadline : beforeDeadline
-        renderTasks(container)
-      }
-
-      input.addEventListener('blur', commit)
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') commit()
-        if (e.key === 'Escape') {
-          task.deadline = beforeDeadline
-          renderTasks(container)
-        }
-      })
-    })
-
-
-    trashIcon.addEventListener('click', () => {
-      state.tasks = state.tasks.filter(
-        (t) => t !== task)
-      renderTasks(container)
-    })
-
-    container.appendChild(li)
+const buildColumns = () => {
+  return {
+    checkbox: div('list__item-col list__item-col--checkbox'),
+    name: div('list__item-col list__item-col--name'),
+    deadline: div('list__item-col list__item-col--deadline'),
+    actions: div('list__item-col list__item-col--actions')
   }
 }
 
-function onSubmitTask(container) {
-  const form =
-    document.querySelector('.js-form') ?? document.querySelector('form')
-  // if (!form) return
+function renderTask(target, task, { onEditName, onEditDeadline, onComplete, onDelete }) {
+  const li = document.createElement('li')
+  const taskContainer = div('list__item')
 
-  const nameInput =
-    form.querySelector('.form__input-name .form__input-field') ??
-    form.querySelector('input[type="text"]')
+  const columns = buildColumns()
 
-  const dateInput =
-    form.querySelector('.form__input-date .form__input-field') ??
-    form.querySelector('input[type="date"]')
-
-  const name = (nameInput?.value ?? '').trim()
-  const deadline = (dateInput?.value ?? '').trim()
-
-  if (!name) {
-    alert('タスク名を入力してください。')
-    // nameInput?.focus()
-    return
-  }
-
-  if (!deadline) {
-    alert('期限日を入力してください。')
-    // dateInput?.focus()
-    return
-  }
-
-
-  state.tasks.unshift({
-    id: crypto?.randomUUID?.() ?? String(Date.now() + Math.random()),
-    name,
-    deadline,
-    completed: false,
+  const checkboxEle = checkbox(task.completed, (checked) => {
+    onComplete(taskContainer, checked)
   })
 
-  if (nameInput) nameInput.value = ''
-  if (dateInput) dateInput.value = ''
+  columns.checkbox.appendChild(checkboxEle)
+  columns.name.textContent = task.name
+  columns.name.addEventListener('click', () => {
+    onEditName(columns.name)
+  })
+
+  columns.deadline.textContent = task.deadline.toString()
+  columns.deadline.addEventListener('click', () => {
+    onEditDeadline(columns.deadline)
+  })
+
+  columns.actions.appendChild(icon('icon icon--trash fa-solid fa-trash', () => {
+    if (window.confirm('このタスクを削除しますか？')) {
+      onDelete()
+    }
+  }))
+
+  Object.values(columns).forEach((column) => taskContainer.appendChild(column))
+  li.appendChild(taskContainer)
+
+  target.appendChild(li)
+}
+
+
+function onSubmitTask(container) {
+  const form = document.querySelector('.js-form')
+  const data = new FormData(form)
+  const name = data.get('name')
+  if (!name) {
+    window.alert('タスク名を入力してください。')
+    return
+  }
+
+  const deadline = AppDate.parse(data.get('deadline'))
+  if (!deadline) {
+    window.alert('期限日を入力してください。')
+    return
+  }
+
+  state.tasks.push({
+    name,
+    deadline
+  })
 
   renderTasks(container)
+  form.reset()
+
 }
 
 // ↑↑↑
