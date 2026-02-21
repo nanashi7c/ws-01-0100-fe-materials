@@ -10,9 +10,10 @@
    振る舞い: 引数で渡された2つの数値を足し算して返す
 */
 
-
 /* [ここに実装] */
-
+export const add = (a: number, b: number): number => {
+  return a + b;
+};
 /* 1.2 以下の関数を実装して下さい
    関数名: sum
    引数: number[]
@@ -21,6 +22,13 @@
 */
 
 /* [ここに実装] */
+export const sum = (nums: number[]): number => {
+  let total: number = 0;
+  for (let i = 0; i < nums.length; i++) {
+    total += nums[i];
+  }
+  return total;
+};
 
 /* 1.3 以下の関数を実装して下さい
    関数名: format
@@ -30,6 +38,13 @@
 */
 
 /* [ここに実装] */
+// 暗黙的変換を避ける意図でnumber型ではなく各変数をstring型で宣言しているが、問題ない？
+export const format = (date: Date): string => {
+  const yyyy: string = String(date.getFullYear());
+  const mm: string = String(date.getMonth() + 1).padStart(2, "0"); // month:0-11
+  const dd: string = String(date.getDate()).padStart(2, "0");
+  return `${yyyy}/${mm}/${dd}`;
+};
 
 /* 1.4 以下の関数を実装して下さい
    関数名: merge
@@ -47,6 +62,18 @@
 */
 
 /* [ここに実装] */
+export const merge = (
+  a: Record<string, number>,
+  b: Record<string, number>,
+): Record<string, number> => {
+  const result: Record<string, number> = { ...a };
+
+  for (const [key, value] of Object.entries(b)) {
+    result[key] = (result[key] ?? 0) + value;
+  }
+
+  return result;
+};
 
 /* 1.5 以下の関数を実装して下さい
    関数名: stringify
@@ -64,3 +91,8 @@
 */
 
 /* [ここに実装] */
+export const stringify = (
+  value: string | number | boolean | null | undefined,
+): string => {
+  return String(value);
+};
