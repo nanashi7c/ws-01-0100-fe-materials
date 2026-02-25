@@ -28,9 +28,18 @@
  *  - GameMaster クラスの run メソッドが実行されるとゲームが実行できるようにしてください。
  */
 
-import { Card, getRandomIndex, IPlayer, IGameMaster, ILogger, Logger } from "../lib/babanuki";
+import {
+  Card,
+  getRandomIndex,
+  IPlayer,
+  IGameMaster,
+  ILogger,
+  Logger,
+} from "../lib/babanuki";
 
 export class Player implements IPlayer {
+  // TODO
+  // hands, name, done, onlyJoker, discard, assign, drawメンバの実装
 }
 
 export class GameMaster implements IGameMaster {
@@ -42,7 +51,13 @@ export class GameMaster implements IGameMaster {
     this.players = players;
   }
 
-  run() {}
+  // TODO
+  // cards, rank, turnメンバの実装
+
+  run() {
+    // Todo
+    // loggerでゲームの進行を出力するアルゴリズム
+  }
 }
 
 // [編集不要] ターミナルでの実行用の関数。
