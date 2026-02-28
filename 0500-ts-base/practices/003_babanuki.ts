@@ -40,6 +40,48 @@ import {
 export class Player implements IPlayer {
   // TODO
   // hands, name, done, onlyJoker, discard, assign, drawメンバの実装
+  hands: Card[] = [];
+  name: string;
+  done: boolean = false;
+  onlyJoker: boolean = false;
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  discard(): Card[] {
+    //数字が同じカードを捨てる処理
+    //捨てたペアの最初のカード群を返却する
+    const pairBases: Card[] = []; //ペアの基準になる1枚のカードの配列。返却用。
+    const pairBasesIndex: number[] = []; //ペアの基準になる1枚のインデックスの配列。
+    const pairCounterpartsIndex: number[] = []; //ペアの基準にならない方のインデックスの配列。
+    // const usedIndex:number[] = []; //
+    for (const [i, card] of this.hands.entries()) {
+      if (!pairCounterpartsIndex.includes(this.hands[i].value)) {
+        //i番目が含まれていないなら。usedはindexの配列にすれば十分かもしれないが、一旦保留。
+        for (let j = i + 1; j < this.hands.length; j++) {
+          if (card.value === this.hands[j].value) {
+            //cardの方もthis.hands[i].valueって書いた方が分かり易そうだけど一旦保留。
+            pairBases.push(this.hands[i]);
+            used.push(this.hands[j]);
+          }
+        }
+      }
+    }
+    this.hands.pop(pairsIndex);
+
+    return pairBases;
+  }
+
+  assign(card: Card): void {
+    //引数に渡されたカードを自分の手札に加える処理
+    this.hands.push(card);
+  }
+  draw(player: IPlayer): Card {
+    //引数のプレイヤーインスタンスの手札からランダムに1枚カードを引く処理
+    const drawIndex = getRandomIndex(player.hands.length);
+    //引いたカードを返却する
+    return player.hands[drawIndex];
+  }
 }
 
 export class GameMaster implements IGameMaster {
@@ -53,10 +95,61 @@ export class GameMaster implements IGameMaster {
 
   // TODO
   // cards, rank, turnメンバの実装
+  cards: Card[] = [];
+  rank: IPlayer[] = [];
+  turn: number = 1; //初期値0のが良い可能性あり
 
-  run() {
+  run(): void {
     // Todo
     // loggerでゲームの進行を出力するアルゴリズム
+
+    //53/nずつカードを配る
+
+    this.logger.firstDiscard();
+
+    //最初のdiscard
+    while (true) {
+      if (this.cards.length === 0) break;
+      //discardする前の手札の出力
+      this.logger.currentState(
+        this.turn,
+        this.players[this.turn % this.players.length],
+      );
+
+      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
+
+      //カードを捨てた後の手札の出力
+    }
+
+    //ゲームスタート
+    this.logger.start();
+
+    //終了条件は誰かが勝つまで勝った時にifでreturnする。実装するまでは一旦数ターン分回す。
+    while (this.turn < 6) {
+      //======を出力するか迷う。→一旦保留。
+      //この部分はメソッドに纏められそう。
+      //draw前の手札の出力
+      this.logger.currentState(
+        this.turn,
+        this.players[this.turn % this.players.length],
+      );
+
+      //draw処理と、そのassin処理と、誰が誰から何のカードをドローしたのか出力。ドローカードはランダム。
+
+      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
+
+      //カードを捨てた後の手札の出力
+
+      //if(ペアを捨てることで自分の手札が0枚になったら)Doneの出力
+
+      //if(カードを引かれた側の手札が0枚になったら)Doneの出力
+
+      //if(抜けた人数が[全体の人数-1]になったら)gameEndと負けた人と順位を出力し、returnでrun()を抜ける。
+
+      //if(手札が1枚で且つジョーカーのみ)gameEndと負けた人と順位を出力し、returnでrun()を抜ける。
+
+      this.turn++;
+    }
   }
 }
 
