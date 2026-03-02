@@ -1,6 +1,8 @@
-
 // [編集不要] ランダムな数値を取得する関数
-export function getRandomIndex(max: number, flag: Record<number, boolean> = {}) {
+export function getRandomIndex(
+  max: number,
+  flag: Record<number, boolean> = {},
+) {
   let list = [];
   for (let i = 0; i < max; i++) {
     if (!flag[i]) {
@@ -63,24 +65,44 @@ export class Card {
     return this.suit === "joker";
   }
 
+  //修正前
+  // equal(card: Card) {
+  //   return card.suit === this.suit && card.value === this.value;
+  // }
+  //修正後（card.suit === this.suit &&を削除）
   equal(card: Card) {
-    return card.suit === this.suit && card.value === this.value;
+    return card.value === this.value;
   }
 
+  //出力を見やすくするためにsuitとnumberの間にスペースを入れた。テスト時に削除予定。
   toString() {
     switch (this.suit) {
       case "spade":
-        return `♠️ ${this.value}`;
+        return `♠️  ${this.value}`;
       case "diamond":
-        return `♦️ ${this.value}`;
+        return `♦️  ${this.value}`;
       case "heart":
-        return `♥️ ${this.value}`;
+        return `♥️  ${this.value}`;
       case "clover":
-        return `♣️ ${this.value}`;
+        return `♣️  ${this.value}`;
       case "joker":
         return `JOKER`;
     }
   }
+  //   toString() {
+  //   switch (this.suit) {
+  //     case "spade":
+  //       return `♠️ ${this.value}`;
+  //     case "diamond":
+  //       return `♦️ ${this.value}`;
+  //     case "heart":
+  //       return `♥️ ${this.value}`;
+  //     case "clover":
+  //       return `♣️ ${this.value}`;
+  //     case "joker":
+  //       return `JOKER`;
+  //   }
+  // }
 }
 
 export interface ILogger {
@@ -157,5 +179,3 @@ export interface IGameMaster {
   turn: number;
   run: () => void;
 }
-
-
