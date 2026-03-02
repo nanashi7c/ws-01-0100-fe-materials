@@ -143,33 +143,18 @@ export class GameMaster implements IGameMaster {
 
     //プレイヤー全員分のdiscard処理
     for (const player of this.players) {
-      //whileループに変更
-      // while (this.activePlayers.length > 1) {
-      //   const currentPlayer=this.activePlayers[currentPlayerIndex];
       //プレイヤーのstateの表示
       this.logger.currentState(this.turn, player);
       const discarded: Card[] = player.discard();
+      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
+
+      //カードを捨てた後の手札の出力
       if (discarded.length !== 0) {
         //捨てるカードがあるならば
         this.logger.discard(player, discarded); //カードを捨てる処理。捨てたカード一覧の表示
       }
       this.turn++;
     }
-
-    // //プレイヤーのdiscard処理。↑で書いたので不要
-    // for (const )
-    // while (true) {
-    //   if (this.cards.length === 0) break;
-    //   //discardする前の手札の出力
-    //   this.logger.currentState(
-    //     this.turn,
-    //     this.players[this.turn % this.players.length],
-    //   );
-
-    //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
-
-    //カードを捨てた後の手札の出力
-    // }//ここまで不要
 
     //ゲームスタートの表示
     this.logger.start();
@@ -178,145 +163,143 @@ export class GameMaster implements IGameMaster {
 
     this.activePlayers = [...this.players]; //残っているプレイヤーを宣言。
     let currentPlayerIndex: number = 0; //ドローするプレイヤーのインデックスの宣言。
-    let nextPlayerIndex: number =
-      currentPlayerIndex > this.activePlayers.length - 2
-        ? 0
-        : currentPlayerIndex + 1; //ドローされる残プレイヤーのインデックス。
+    let nextPlayerIndex: number = 0; //ドローされるプレイヤーのインデックスの宣言。
+
     //一旦9ターン目まで。後でtrueに修正。
-    while (this.turn < 50) {
+    // while (this.turn < 50) {
+    while (this.activePlayers.length > 1) {
+      //while(true){どちらかに変更。
       //======を出力するか迷う。→一旦保留。
       //この部分はメソッドに纏められそう。
+
+      const currentPlayer: Player = this.activePlayers[currentPlayerIndex];
+      nextPlayerIndex =
+        currentPlayerIndex > this.activePlayers.length - 2
+          ? 0
+          : currentPlayerIndex + 1; //ドローされる残プレイヤーのインデックス。
+
       //draw前の手札の出力
+      this.logger.currentState(this.turn, currentPlayer);
 
-      for (const player of this.activePlayers) {
-        //デバッグ用
+      //draw処理と、そのassin処理と、誰が誰から何のカードをドローしたのか出力。ドローカードはランダム。
+      const drawedCard: Card = currentPlayer.draw(
+        this.activePlayers[
+          currentPlayerIndex > this.activePlayers.length - 2
+            ? 0
+            : currentPlayerIndex + 1
+        ],
+      ); //次の番の人からカードを引く。
+      currentPlayer.assign(drawedCard); //引いたカードを自分の手札に加える。
+      this.logger.draw(
+        //複数回出てきてる部分を変数化する。
+        this.activePlayers[currentPlayerIndex],
+        this.activePlayers[
+          currentPlayerIndex > this.activePlayers.length - 2
+            ? 0
+            : currentPlayerIndex + 1
+        ], //nextPlayerIndexは2回出てくるので変数化する。
+        drawedCard,
+      );
+
+      //discardするカードがあれば、discard処理をし、discardのログを出す。
+      const discardedCard: Card[] = currentPlayer.discard(); //既に定義済みのdiscardedと役割が一部被っているため共通化する必要がありそう。
+
+      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
+      if (discardedCard.length !== 0) {
+        //捨てたカードがある場合。カードを捨てた後の手札の出力。
+        this.logger.discard(currentPlayer, discardedCard);
+      }
+
+      //if(ペアを捨てることで自分の手札が0枚になったら)Doneの出力。
+      //カードを引いたプレイヤーが抜けるときの処理
+      if (this.activePlayers[currentPlayerIndex].hands.length === 0) {
+        //プレイヤーが抜ける条件。手札がなくなったら。
+        this.rank.push(this.activePlayers[currentPlayerIndex]); //抜けた人を順位配列に格納。
+        this.logger.done(this.activePlayers[currentPlayerIndex]); //抜けた人を出力
+        this.activePlayers[currentPlayerIndex].done = true; //doneフラグを立てる。
+        // this.activePlayers.splice(currentPlayerIndex, 1); //残ってるプレイヤーからcurrentPlayerIndex番目のプレイヤーを削除。フラグで判断するようにして、カードが引かれた側の抜ける処理も終わった後に行う。
+
         // console.log(
-        //   currentPlayerIndex,
-        //   this.activePlayers.length - 2,
-        //   this.activePlayers[currentPlayerIndex].name,
-        // );
+        //   "引いた側が抜けた",
+        //   this.activePlayers,
+        //   this.activePlayers[currentPlayerIndex],
+        // ); //デバッグ用
+      }
 
-        // const currentPlayer: Player = this.activePlayers[currentPlayerIndex]; //currentPlayerとnextPlayerの定義要修正。この部分多分一回しか使わないので要らない。
-        // cosnt nextPlayer=
-        this.logger.currentState(
-          this.turn,
-          this.activePlayers[currentPlayerIndex], //プレイヤーズではなく抜けてない人の配列を参照しないといけない。要修正。
-        );
-
-        const drawedCard: Card = player.draw(
+      //if(カードを引かれた側の手札が0枚になったら)Doneの出力。
+      //カードを引かれたプレイヤーが抜けるときの処理。nextPlayerIndexの共通化。
+      if (
+        this.activePlayers[
+          currentPlayerIndex > this.activePlayers.length - 2
+            ? 0
+            : currentPlayerIndex + 1
+        ].hands.length === 0
+      ) {
+        //nextPlayerIndexなので後で共通化する。
+        this.rank.push(
           this.activePlayers[
             currentPlayerIndex > this.activePlayers.length - 2
               ? 0
               : currentPlayerIndex + 1
           ],
-        ); //次の番の人からカードを引く。
-        player.assign(drawedCard); //引いたカードを自分の手札に加える。
-        this.logger.draw(
-          //複数回出てきてる部分を変数化する。
-          this.activePlayers[currentPlayerIndex],
+        ); //抜けた人を順位配列に格納。
+        this.logger.done(
           this.activePlayers[
             currentPlayerIndex > this.activePlayers.length - 2
               ? 0
               : currentPlayerIndex + 1
-          ], //nextPlayerIndexは2回出てくるので変数化する。
-          drawedCard,
-        );
-
-        //discardするカードがあれば、discard処理をし、discardのログを出す。
-        const discardedCard: Card[] = player.discard(); //既に定義済みのdiscardedと役割が一部被っているため共通化する必要がありそう。
-        if (discardedCard.length !== 0) {
-          //捨てたカードがある場合
-          this.logger.discard(player, discardedCard);
-        }
-
-        //カードを引いたプレイヤーが抜けるときの処理
-        if (this.activePlayers[currentPlayerIndex].hands.length === 0) {
-          //プレイヤーが抜ける条件。手札がなくなったら。
-          this.rank.push(this.activePlayers[currentPlayerIndex]); //抜けた人を順位配列に格納。
-          this.logger.done(this.activePlayers[currentPlayerIndex]); //抜けた人を出力
-          this.activePlayers[currentPlayerIndex].done = true; //doneフラグを立てる。
-          // this.activePlayers.splice(currentPlayerIndex, 1); //残ってるプレイヤーからcurrentPlayerIndex番目のプレイヤーを削除。フラグで判断するようにして、カードが引かれた側の抜ける処理も終わった後に行う。
-          console.log(
-            "引いた側が抜けた",
-            this.activePlayers,
-            this.activePlayers[currentPlayerIndex],
-          ); //デバッグ用
-        }
-
-        //カードを引かれたプレイヤーが抜けるときの処理。nextPlayerIndexの共通化。
-        if (
-          this.activePlayers[
-            currentPlayerIndex > this.activePlayers.length - 2
-              ? 0
-              : currentPlayerIndex + 1
-          ].hands.length === 0
-        ) {
-          //nextPlayerIndexなので後で共通化する。
-          this.rank.push(
-            this.activePlayers[
-              currentPlayerIndex > this.activePlayers.length - 2
-                ? 0
-                : currentPlayerIndex + 1
-            ],
-          ); //抜けた人を順位配列に格納。
-          this.logger.done(
-            this.activePlayers[
-              currentPlayerIndex > this.activePlayers.length - 2
-                ? 0
-                : currentPlayerIndex + 1
-            ],
-          ); //抜けた人を出力
-          this.activePlayers[
-            currentPlayerIndex > this.activePlayers.length - 2
-              ? 0
-              : currentPlayerIndex + 1
-          ].done = true; //doneフラグを立てる。
-          console.log(
-            "引かれた側が抜けた",
-            this.activePlayers,
-            this.activePlayers[currentPlayerIndex],
-          ); //デバッグ用
-        }
-
-        console.log(this.activePlayers); //デバッグ用
-        this.activePlayers = this.activePlayers.filter((player) => {
-          return !player.done; //残ってるプレイヤーからdoneフラグが立ってるプレイヤーを削除。
-        });
-        console.log(this.activePlayers); //デバッグ用
-
-        //filterメソッド使った方が良さそうなので、削除予定。
-        // for (const player of this.activePlayers) {
-        //   if (player.done === true) {
-        //     this.activePlayers.splice(currentPlayerIndex, 1); //残ってるプレイヤーからcurrentPlayerIndex番目のプレイヤーを削除。
-        //   }
-        // }
-
-        //ゲームの終了処理
-        if (this.rank.length === this.players.length - 1) {
-          //ゲームの終了条件。抜けたプレイヤーが参加者-1になるか、手札にジョーカーしかない人がいる場合。
-        }
-
-        currentPlayerIndex =
+          ],
+        ); //抜けた人を出力
+        this.activePlayers[
           currentPlayerIndex > this.activePlayers.length - 2
             ? 0
-            : currentPlayerIndex + 1; //現在のindexの位置のインクリメント
-        this.turn++;
+            : currentPlayerIndex + 1
+        ].done = true; //doneフラグを立てる。
+
+        // console.log(
+        //   "引かれた側が抜けた",
+        //   this.activePlayers,
+        //   this.activePlayers[currentPlayerIndex],
+        // ); //デバッグ用
       }
 
-      //draw処理と、そのassin処理と、誰が誰から何のカードをドローしたのか出力。ドローカードはランダム。
+      // console.log(this.activePlayers, "-------"); //デバッグ用
+      this.activePlayers = this.activePlayers.filter((player) => {
+        return !player.done; //残ってるプレイヤーからdoneフラグが立ってるプレイヤーを削除。
+      });
+      // console.log(this.activePlayers); //デバッグ用
 
-      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
+      //Jokerしか手札に無い人がいればフラグを立てる。
+      for (const player of this.activePlayers) {
+        if (player.hands.length === 1) {
+          if (player.hands[0].isJoker) {
+            player.onlyJoker = true;
+          }
+        }
+      }
 
-      //カードを捨てた後の手札の出力
-
-      //if(ペアを捨てることで自分の手札が0枚になったら)Doneの出力
-
-      //if(カードを引かれた側の手札が0枚になったら)Doneの出力
-
+      //endのrank出力時にplayerのdone,onlyJokerも出力されてしまっているが、編集不要のインターフェイスに基づいているので、このままにする。
       //if(抜けた人数が[全体の人数-1]になったら)gameEndと負けた人と順位を出力し、returnでrun()を抜ける。
+      //ゲームの終了処理
+      if (this.rank.length === this.players.length - 1) {
+        //ゲームの終了条件。抜けたプレイヤーが参加者-1になるか、手札にジョーカーしかない人がいる場合。
+        this.logger.end(this.activePlayers[0], this.rank);
+        return; //run()の終了
+      }
+      for (const player of this.activePlayers) {
+        if (player.onlyJoker) {
+          this.logger.end(player, this.rank);
+          return; //run()の終了
+        } //onlyjokerを更新する処理が必要。
+      }
 
-      //if(手札が1枚で且つジョーカーのみ)gameEndと負けた人と順位を出力し、returnでrun()を抜ける。
-    }
+      currentPlayerIndex =
+        currentPlayerIndex > this.activePlayers.length - 2
+          ? 0
+          : currentPlayerIndex + 1; //現在のindexの位置のインクリメント
+      this.turn++; //ターンのインクリメント処理。
+      // }//不要なforループの閉じ括弧
+    } //ゲーム継続のwhileループの閉じ括弧
   }
 }
 
