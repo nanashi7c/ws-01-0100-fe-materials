@@ -47,52 +47,40 @@ export class Player implements IPlayer {
   }
 
   discard(): Card[] {
-    //数字が同じカードを捨てる処理
-    //捨てたペアの最初のカード群を返却する
-    const pairBases: Card[] = []; //ペアの基準になる1枚のカードの配列。返却用。
-    const pairBasesIndexs: number[] = []; //ペアの基準になる1枚のインデックスの配列。
-    const pairCounterpartsIndex: number[] = []; //ペアの基準にならない方のインデックスの配列。
-    // const usedIndex:number[] = []; //
+    const pairBases: Card[] = [];
+    const pairBasesIndexs: number[] = [];
+    const pairCounterpartsIndex: number[] = [];
     for (const [i, card] of this.hands.entries()) {
       if (!pairCounterpartsIndex.includes(i)) {
-        //ペアの基準にならない方のインデックスの配列にi番目が含まれていないなら。
         for (let j = i + 1; j < this.hands.length; j++) {
           if (card.equal(this.hands[j])) {
-            pairBases.push(this.hands[i]); //this.hands[i]→cardの方が良さそう。後で修正予定。
-            // pairBasesIndexs.push(j);//多分ここ間違ってる。
+            pairBases.push(this.hands[i]);
             pairBasesIndexs.push(i);
             pairCounterpartsIndex.push(j);
-            break; //ペアになるカードが1枚見つかった時点でi番目のペア探しを終了。
+            break;
           }
         }
       }
     }
-    //handsのpairBasesIndexs番目かpairCounterpartsIndex番目のカードを全て削除
-    //
+
     this.hands = this.hands.filter((card, index) => {
-      //手札をペアの基準になる1枚とペアの基準にならない方どちらにも含まれないカード全てを返す。
       return (
-        // pairBasesIndexs.includes(index) || pairCounterpartsIndex.includes(index)//多分間違ってる。
         !pairBasesIndexs.includes(index) &&
         !pairCounterpartsIndex.includes(index)
       );
     });
 
-    return pairBases; //ペアの基準になる1枚のカード全て
+    return pairBases;
   }
 
   assign(card: Card): void {
-    //引数に渡されたカードを自分の手札に加える処理
     this.hands.push(card);
   }
   draw(player: IPlayer): Card {
-    //引数のプレイヤーインスタンスの手札からランダムに1枚カードを引く処理
-    const drawIndex = getRandomIndex(player.hands.length); //手札からランダムに1枚選ぶ
-    const drawnCard = player.hands[drawIndex]; //返却用に引いたカードをdrawnCardに一時退避。
-    player.hands.splice(drawIndex, 1); //引かれたカードを手札から削除
-    //引いたカードを返却する
+    const drawIndex = getRandomIndex(player.hands.length);
+    const drawnCard = player.hands[drawIndex];
+    player.hands.splice(drawIndex, 1);
     return drawnCard;
-    // return player.hands[drawIndex];//ランダムに選んだカードを削除した後に、手札からdrawIndex番目のカードを参照してしまっているので、元配列のdrawIndex+1番目を返しているように見えるため、修正。
   }
 }
 
@@ -103,13 +91,13 @@ export class GameMaster implements IGameMaster {
   constructor(logger: ILogger, players: IPlayer[]) {
     this.logger = logger;
     this.players = players;
-    this.activePlayers = players; //抜けていないプレイヤー
+    this.activePlayers = players;
   }
 
   cards: Card[] = [];
   rank: IPlayer[] = [];
-  turn: number = 1; //初期値0のが良い可能性あり。一旦保留
-  activePlayers: IPlayer[] = []; //constとletどっち？
+  turn: number = 1;
+  activePlayers: IPlayer[] = [];
 
   private getNextPlayerIndex(currentPlayerIndex: number): number {
     return currentPlayerIndex > this.activePlayers.length - 2
@@ -118,99 +106,70 @@ export class GameMaster implements IGameMaster {
   }
 
   private markDoneIfEmptyHand(player: Player): void {
-    //if(カードを引かれた側の手札が0枚になったら)Doneの出力。
-    //カードを引かれたプレイヤーが抜けるときの処理。nextPlayerIndexの共通化。
     if (player.hands.length === 0) {
-      //nextPlayerIndexなので後で共通化する。
-      this.rank.push(player); //抜けた人を順位配列に格納。
-      this.logger.done(player); //抜けた人を出力
-      player.done = true; //doneフラグを立てる。
+      this.rank.push(player);
+      this.logger.done(player);
+      player.done = true;
     }
   }
 
   run(): void {
-    //53/nずつカードを配る
-    const deck: Card[] = Card.prepare(); //deckを作る
-    // console.log(deck); //デバッグ用
+    const deck: Card[] = Card.prepare();
 
-    //deckを2枚ずつ配る
-    //deckにカードが残っている場合
     while (deck.length > 0) {
       for (const player of this.players) {
         for (let i = 0; i < 2; i++) {
-          //2枚ずつ配る
-          const drawnCardIndex: number = getRandomIndex(deck.length); //deckからランダムに1枚選んだカードのインデックス
-          player.assign(deck[drawnCardIndex]); //deckから選んだカードをプレイヤーに配る
-          deck.splice(drawnCardIndex, 1); //deckから引かれたカードを削除
-          if (deck.length === 0) break; //deckが切れたら配るのを止める
+          const drawnCardIndex: number = getRandomIndex(deck.length);
+          player.assign(deck[drawnCardIndex]);
+          deck.splice(drawnCardIndex, 1);
+          if (deck.length === 0) break;
         }
-        if (deck.length === 0) break; //deckが切れたら配るのを止める
+        if (deck.length === 0) break;
       }
     }
 
-    //最初のdiscard
-    this.logger.firstDiscard(); //firstDiscardの表示
+    this.logger.firstDiscard();
 
-    //プレイヤー全員分のdiscard処理
     for (const player of this.players) {
-      //プレイヤーのstateの表示
       this.logger.currentState(this.turn, player);
       const discarded: Card[] = player.discard();
-      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
 
-      //カードを捨てた後の手札の出力
       if (discarded.length !== 0) {
-        //捨てるカードがあるならば
-        this.logger.discard(player, discarded); //カードを捨てる処理。捨てたカード一覧の表示
+        this.logger.discard(player, discarded);
       }
       this.turn++;
     }
 
-    //ゲームスタートの表示
     this.logger.start();
 
-    this.activePlayers = [...this.players]; //残っているプレイヤーを宣言。
-    let currentPlayerIndex: number = 0; //ドローするプレイヤーのインデックスの宣言。
-    let nextPlayerIndex: number; //ドローされるプレイヤーのインデックスの宣言。
+    this.activePlayers = [...this.players];
+    let currentPlayerIndex: number = 0;
+    let nextPlayerIndex: number;
 
     while (this.activePlayers.length > 1) {
-      //======を出力するか迷う。→一旦保留。
-      //この部分はメソッドに纏められそう。
-
       const currentPlayer: Player = this.activePlayers[currentPlayerIndex];
-      nextPlayerIndex = this.getNextPlayerIndex(currentPlayerIndex); //ドローされる残プレイヤーのインデックス。
+      nextPlayerIndex = this.getNextPlayerIndex(currentPlayerIndex);
 
-      //draw前の手札の出力
       this.logger.currentState(this.turn, currentPlayer);
 
-      //draw処理と、そのassin処理と、誰が誰から何のカードをドローしたのか出力。ドローカードはランダム。
       const drawnCard: Card = currentPlayer.draw(
         this.activePlayers[nextPlayerIndex],
-      ); //次の番の人からカードを引く。
-      currentPlayer.assign(drawnCard); //引いたカードを自分の手札に加える。
+      );
+      currentPlayer.assign(drawnCard);
       this.logger.draw(
-        //複数回出てきてる部分を変数化する。
         this.activePlayers[currentPlayerIndex],
         this.activePlayers[nextPlayerIndex],
         drawnCard,
       );
 
-      //discardするカードがあれば、discard処理をし、discardのログを出す。
-      const discardedCards: Card[] = currentPlayer.discard(); //既に定義済みのdiscardedと役割が一部被っているため共通化する必要がありそう。
+      const discardedCards: Card[] = currentPlayer.discard();
 
-      //if(ペアになるカードがある場合)カードを捨てる処理と、捨てるカードのペアの1枚目の出力
       if (discardedCards.length !== 0) {
-        //捨てたカードがある場合。カードを捨てた後の手札の出力。
         this.logger.discard(currentPlayer, discardedCards);
       }
 
-      //if(ペアを捨てることで自分の手札が0枚になったら)Doneの出力。
-      //カードを引いたプレイヤーが抜けるときの処理
-
       this.markDoneIfEmptyHand(this.activePlayers[currentPlayerIndex]);
 
-      //if(カードを引かれた側の手札が0枚になったら)Doneの出力。
-      //カードを引かれたプレイヤーが抜けるときの処理。nextPlayerIndexの共通化。
       this.markDoneIfEmptyHand(
         this.activePlayers[this.getNextPlayerIndex(currentPlayerIndex)],
       );
@@ -220,10 +179,9 @@ export class GameMaster implements IGameMaster {
       }
 
       this.activePlayers = this.activePlayers.filter((player) => {
-        return !player.done; //残ってるプレイヤーからdoneフラグが立ってるプレイヤーを削除。
+        return !player.done;
       });
 
-      //Jokerしか手札に無い人がいればフラグを立てる。
       for (const player of this.activePlayers) {
         if (player.hands.length === 1) {
           if (player.hands[0].isJoker) {
@@ -232,30 +190,20 @@ export class GameMaster implements IGameMaster {
         }
       }
 
-      //endのrank出力時にplayerのdone,onlyJokerも出力されてしまっているが、編集不要のインターフェイスに基づいているので、このままにする。
-      //if(抜けた人数が[全体の人数-1]になったら)gameEndと負けた人と順位を出力し、returnでrun()を抜ける。
-      //ゲームの終了処理
       if (this.rank.length === this.players.length - 1) {
-        //ゲームの終了条件。抜けたプレイヤーが参加者-1になるか、手札にジョーカーしかない人がいる場合。
         this.logger.end(this.activePlayers[0], this.rank);
-        return; //run()の終了
+        return;
       }
       for (const player of this.activePlayers) {
         if (player.onlyJoker) {
           this.logger.end(player, this.rank);
-          return; //run()の終了
-        } //onlyjokerを更新する処理が必要。
+          return;
+        }
       }
-      console.log(
-        "Doneのときに要確認",
-        "currentPlayerIndex:",
-        currentPlayerIndex,
-        this.activePlayers[currentPlayerIndex],
-      );
-      currentPlayerIndex = this.getNextPlayerIndex(currentPlayerIndex); //現在のindexの位置のインクリメント
-      this.turn++; //ターンのインクリメント処理。
-      // }//不要なforループの閉じ括弧
-    } //ゲーム継続のwhileループの閉じ括弧
+
+      currentPlayerIndex = this.getNextPlayerIndex(currentPlayerIndex);
+      this.turn++;
+    }
   }
 }
 
